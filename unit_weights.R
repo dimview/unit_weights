@@ -38,8 +38,8 @@ rf.gini = NULL
 set.seed(42)
 for (i in 1:1000) {
   data$random_number <- runif(nrow(data),0,1)
-  development <- data[ which(data$random_number > 0.7), ]
-  holdout     <- data[ which(data$random_number <= 0.7), ]
+  development <- data[ which(data$random_number > 0.3), ]
+  holdout     <- data[ which(data$random_number <= 0.3), ]
   development$random_number <- NULL
   holdout$random_number <- NULL
   
@@ -72,9 +72,14 @@ for (i in 1:1000) {
 
 bpd<-data.frame(ImproperModel=im.gini, ProperModel=pm.gini, LogisticRegression=lr.gini, RandomForest=rf.gini)
 png('~/habr/unit_weights/auc_comparison.png', height=700, width=400, res=120, units='px')
-boxplot(bpd, las=2, ylab="Gini", ylim=c(0,1), par(mar=c(12,5,2,2)+ 0.1), col=c("red","green","royalblue2","brown"))
+boxplot(bpd, las=2, ylab="Gini", ylim=c(0,1), par(mar=c(9,5,1,1)+ 0.1), col=c("red","green","royalblue2","brown"))
 dev.off()
 mean(im.gini)
 mean(pm.gini)
 mean(lr.gini)
 mean(rf.gini)
+
+mean(im.gini)/mean(rf.gini)
+mean(pm.gini)/mean(rf.gini)
+mean(lr.gini)/mean(rf.gini)
+mean(rf.gini)/mean(rf.gini)
